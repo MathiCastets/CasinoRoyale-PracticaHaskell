@@ -94,19 +94,20 @@ bebidaWinner = bebidaPreferida . maximoSegun (valor.mano)
 --6. a
 -- nombre . maximoSegun (length.bebidaPreferida ) $ [jamesBond, leChiffre, felixLeiter]
 
---b
---  maximoSegun (filter esoNoSeVale.mano) [jamesBond, leChiffre, felixLeiter]
+--b maximoSegun (filter esoNoSeVale.mano) [jamesBond, leChiffre, felixLeiter]
 
 --c maximoSegun (negate.length.nombre) [jamesBond, leChiffre, felixLeiter]
 
 --d nombre . maximoSegun (valor.mano) $ jugadores 
 
---7.a
 
---ordenar _ [] = []
---ordenar criterio lista=
-    
+--7.a
+ordenar _ [] = []
+ordenar criterio (x:xs)=
+    ordenar criterio (filter (not.criterio x) xs) ++ [x] ++ ordenar criterio (filter (criterio x) xs)
 
 --b
---esEscalera cartas = ordenar (<) cartas 
---esEscaleraDeColor cartas = esEscalera cartas && esColor cartas 
+esEscalera cartas =  ((==5).length.sinRepetidos) cartasOrdenadas && (head cartasOrdenadas == (last cartasOrdenadas - 4))
+    where cartasOrdenadas = ordenar (<) $ map numeroCarta cartas
+
+esEscaleraDeColor cartas = esEscalera cartas && esColor cartas 
