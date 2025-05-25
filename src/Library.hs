@@ -107,7 +107,13 @@ ordenar criterio (x:xs)=
     ordenar criterio (filter (not.criterio x) xs) ++ [x] ++ ordenar criterio (filter (criterio x) xs)
 
 --b
-esEscalera cartas =  ((==5).length.sinRepetidos) cartasOrdenadas && (head cartasOrdenadas == (last cartasOrdenadas - 4))
-    where cartasOrdenadas = ordenar (<) $ map numeroCarta cartas
+esEscalera cartas =   noHayNumerosRepetidos && (head cartasOrdenadas == (last cartasOrdenadas - 4))
+    where 
+        cartasOrdenadas = ordenar (<) $ map numeroCarta cartas
+        noHayNumerosRepetidos=((==5).length.sinRepetidos) cartasOrdenadas
+
+esEscalera' cartas = all (uncurry (<)) . zip cartasOrdenadas $ tail cartasOrdenadas
+    where 
+        cartasOrdenadas = ordenar (<) $ map numeroCarta cartas
 
 esEscaleraDeColor cartas = esEscalera cartas && esColor cartas 
